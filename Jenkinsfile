@@ -1,12 +1,12 @@
 pipeline {
-    agent {
-        label 'built-in'
-    }
+    agent any
     stages {
         stage('init') {
             steps {
                 script {
-                    sh 'printenv | sort'
+                    sh 'git reset --hard && git clean -xfdf'
+                    sh 'printenv | sort | tee printenv.txt'
+                    archiveArtifacts artifacts: '*.txt', allowEmptyArchive: true
                 }
             }
         }
