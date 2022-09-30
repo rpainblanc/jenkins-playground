@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
                     sh 'git reset --hard && git clean -xfdf'
-                    sh 'printenv | sort > printenv.txt'
+                    sh 'printenv | sort | tee > printenv.txt'
                     archiveArtifacts artifacts: '*.txt', allowEmptyArchive: true
                 }
             }
