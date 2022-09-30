@@ -3,7 +3,7 @@ pipeline {
     environment {
         // Override "author display name" with "author" do not have accented characters
         // Quick fix for https://app.shortcut.com/dataiku/story/98467/integration-tests-prs-k3d-tests-fail-if-environment-variable-contains-accented-characters
-        CHANGE_AUTHOR_DISPLAY_NAME = env.CHANGE_AUTHOR
+        CHANGE_AUTHOR_DISPLAY_NAME = "${env.CHANGE_AUTHOR?env.CHANGE_AUTHOR:"unknown"}"
     }
     stages {
         stage('init') {
