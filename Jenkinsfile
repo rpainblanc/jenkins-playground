@@ -6,7 +6,9 @@ pipeline {
         stage('init') {
             steps {
                 script {
-                    sh 'printenv | sort'
+                    sh 'git reset --hard && git clean -xfdf'
+                    sh 'printenv | sort > printenv.txt'
+                    archiveArtifacts artifacts: '*.txt', allowEmptyArchive: true
                 }
             }
         }
