@@ -44,6 +44,12 @@ pipeline {
             steps {
                 script {
                     sh 'printenv | sort'
+                    checkout([changelog: false,
+                              poll     : false,
+                              scm      : [$class           : 'GitSCM',
+                                          branches         : [[name: branch_name]],
+                                          userRemoteConfigs: [[credentialsId: 'jenkins-dataiku', url: 'https://github.com/rpainblanc/jenkins-playground.git']],
+                                          extensions       : [[$class: 'CloneOption', noTags: true, shallow: true]]]])
                     sh 'git reset --hard && git clean -xfdf'
                     sh 'ls -al'
                 }
