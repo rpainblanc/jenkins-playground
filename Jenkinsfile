@@ -1,7 +1,7 @@
 // Check use-cases in this order: CHANGE_BRANCH then (BRANCH_NAME || GIT_BRANCH)
 if (env.CHANGE_BRANCH && env.CHANGE_ID && env.CHANGE_TARGET) {
     // Jenkins build context: GitHub organization and a PR
-    println("Working on branch ${env.CHANGE_BRANCH}, linked to GitHub PR ${env.CHANGE_ID} which targets branch ${env.CHANGE_TARGET}")
+    println("Working on branch '${env.CHANGE_BRANCH}', linked to GitHub PR '${env.CHANGE_ID}' which targets branch '${env.CHANGE_TARGET}'")
 } else if (env.BRANCH_NAME || env.GIT_BRANCH) {
     // Jenkins build context: GitHub organization and not a PR (e.g. master / release branches)
     // OR
