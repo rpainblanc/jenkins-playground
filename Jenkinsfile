@@ -1,17 +1,3 @@
-// Check use-cases in this order: CHANGE_BRANCH then (BRANCH_NAME || GIT_BRANCH)
-if (env.CHANGE_BRANCH && env.CHANGE_ID && env.CHANGE_TARGET) {
-    // Jenkins build context: GitHub organization and a PR
-    println("Working on branch '${env.CHANGE_BRANCH}', linked to GitHub PR '${env.CHANGE_ID}' which targets branch '${env.CHANGE_TARGET}'")
-} else if (env.BRANCH_NAME || env.GIT_BRANCH) {
-    // Jenkins build context: GitHub organization and not a PR (e.g. master / release branches)
-    // OR
-    // Jenkins build context: direct SCM configuration
-    def branch_name = getBranchName()
-    println("Working on branch '${branch_name}'")
-} else {
-    println("WARNING Could not determine Jenkins build context, no Sonar analysis would be executed")
-}
-
 pipeline {
     agent {
         label 'built-in'
@@ -24,6 +10,21 @@ pipeline {
             steps {
                 script {
                     sh 'printenv | sort'
+
+                    // Check use-cases in this order: CHANGE_BRANCH then (BRANCH_NAME || GIT_BRANCH)
+                    if (env.CHANGE_BRANCH && env.CHANGE_ID && env.CHANGE_TARGET) {
+                        // Jenkins build context: GitHub organization and a PR
+                        println("Working on branch '${env.CHANGE_BRANCH}', linked to GitHub PR '${env.CHANGE_ID}' which targets branch '${env.CHANGE_TARGET}'")
+                    } else if (env.BRANCH_NAME || env.GIT_BRANCH) {
+                        // Jenkins build context: GitHub organization and not a PR (e.g. master / release branches)
+                        // OR
+                        // Jenkins build context: direct SCM configuration
+                        def branch_name = getBranchName()
+                        println("Working on branch '${branch_name}'")
+                    } else {
+                        println("WARNING Could not determine Jenkins build context, no Sonar analysis would be executed")
+                    }
+
                     if (env.CHANGE_BRANCH) {
                         println("Jenkins build context: GitHub organization and a PR")
                     } else if (env.BRANCH_NAME || env.GIT_BRANCH) {
@@ -56,4 +57,3 @@ def getBranchName() {
 
     return branchName.replaceAll(/^origin\//, '')
 }
-
