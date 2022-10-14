@@ -12,6 +12,7 @@ pipeline {
                     sh 'printenv | sort'
                     sh 'git reset --hard && git clean -xfdf'
                     sh 'ls -al'
+                    println("feature branch")
                 }
             }
         }
