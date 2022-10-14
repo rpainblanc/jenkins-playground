@@ -7,7 +7,7 @@ if (env.CHANGE_BRANCH && env.CHANGE_ID && env.CHANGE_TARGET) {
     // OR
     // Jenkins build context: direct SCM configuration
     def branch_name = getBranchName()
-    println("Working on branch ${branch_name}")
+    println("Working on branch '${branch_name}'")
 } else {
     println("WARNING Could not determine Jenkins build context, no Sonar analysis would be executed")
 }
